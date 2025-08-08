@@ -1,2 +1,4 @@
-torch
+flask
 whisper
+torch
+gunicorn
