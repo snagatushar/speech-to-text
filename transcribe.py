@@ -1,18 +1,17 @@
-import whisper
-import sys
+from flask import Flask, request, jsonify
 
-def transcribe(audio_path):
-    model = whisper.load_model("base")
-    result = model.transcribe(audio_path)
-    return result["text"]
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello from Flask!"
+
+@app.route("/transcribe", methods=["POST"])
+def transcribe():
+    # Your transcription logic here
+    return jsonify({"text": "Transcribed text goes here"})
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python transcribe.py <audio_file>")
-        sys.exit(1)
-
-    audio_file = sys.argv[1]
-    print(f"Transcribing audio: {audio_file}")
-    text = transcribe(audio_file)
-    print("\n--- Transcription ---\n")
-    print(text)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
